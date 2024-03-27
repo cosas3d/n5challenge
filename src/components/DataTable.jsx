@@ -7,7 +7,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 function DataTable({ data, onEdit, onDelete, onCreate }) {
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
-
+        { field: 'nombreEmpleado', headerName: 'Nombre del Empleado', width: 200 },
+        { field: 'apellidoEmpleado', headerName: 'Apellido del Empleado', width: 200 },
+        { field: 'tipoPermisoId', headerName: 'Tipo de Permiso', width: 200 },
         {
             field: 'actions',
             headerName: 'Actions',
