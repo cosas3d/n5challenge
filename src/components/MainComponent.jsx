@@ -14,7 +14,21 @@ function MainComponent() {
     useEffect(() => {
         const fetchData = async () => {
             const response = await api.get('/api/Permissions');
-            setData(response.data);
+            const dataWithIds = response.data.map(item => {
+                if (item) {
+                    return {
+                        id: item.id.toLowerCase(),
+                        nombreEmpleado: item.nombreEmpleado,
+                        apellidoEmpleado: item.apellidoEmpleado,
+                        fechaPermiso: item.fechaPermiso,
+                        tipoPermisoId: item.tipoPermisoId,
+                    };
+                } else {
+                    return null;
+                }
+            }).filter(item => item !== null);
+            setData(dataWithIds);
+
         };
 
         fetchData();
