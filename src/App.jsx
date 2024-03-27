@@ -1,8 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MenuComponent from "./components/MenuComponent.jsx";
-import PermissionsComponent from "./components/PermissionsComponent.jsx";
-import PermissionsTypesComponent from "./components/PermissionsTypesComponent.jsx";
-import PermissionCreateFormComponent from "./components/PermissionCreateFormComponent.jsx";
 import HomeComponent from "./components/HomeComponent.jsx";
 function App() {
     return (
@@ -10,9 +7,6 @@ function App() {
             <MenuComponent />
             <Routes>
                 <Route path="/" element={<HomeComponent />} /> {}
-                <Route path="/permissions" element={<PermissionsComponent />} />
-                <Route path="/permissionstypes" element={<PermissionsTypesComponent />} />
-                <Route path="/create-permission" element={<PermissionCreateFormComponent />} />
             </Routes>
         </Router>
     );

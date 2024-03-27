@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import FormCreateComponent from './FormCreateComponent';
 import DataTable from './DataTable.jsx';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
 
 import api from '../api';
 
 function MainComponent() {
     const [data, setData] = useState([]);
-    const [selectedId, setSelectedId] = useState(null);
+    const [creating, setCreating] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -17,12 +20,17 @@ function MainComponent() {
         fetchData();
     }, []);
 
-    const handleCreate = (values) => {
-        // Implementa aquí la lógica para crear un nuevo elemento
+    const handleCreate = async (values) => {
+        try {
+            const response = await api.post('/api/Permissions', values);
+            setData([...data, response.data]);
+            setCreating(false);
+        } catch (error) {
+            console.error('Error al crear el permiso: ', error);
+        }
     };
 
     const handleEdit = (id) => {
-        setSelectedId(id);
         // Implementa aquí la lógica para editar un elemento
     };
 
@@ -32,8 +40,13 @@ function MainComponent() {
 
     return (
         <div>
-            <DataTable data={data} onEdit={handleEdit} onDelete={handleDelete} onCreate={() => setSelectedId(null)} />
-            {selectedId && <FormCreateComponent initialValues={data.find(item => item.id === selectedId)} onSubmit={handleCreate} />}
+            <DataTable data={data} onEdit={handleEdit} onDelete={handleDelete} onCreate={() => setCreating(true)} />
+            <Dialog open={creating} onClose={() => setCreating(false)}>
+                <DialogTitle>Crear Permiso</DialogTitle>
+                <DialogContent>
+                    <FormCreateComponent onSubmit={handleCreate} />
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
