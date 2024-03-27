@@ -1,40 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import MenuComponent from "./components/MenuComponent.jsx";
+import PermissionsComponent from "./components/PermissionsComponent.jsx";
 import PermissionsTypesComponent from "./components/PermissionsTypesComponent.jsx";
-
+import PermissionCreateFormComponent from "./components/PermissionCreateFormComponent.jsx";
+import HomeComponent from "./components/HomeComponent.jsx";
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-        <div>
-            Lo que tengo de tipos de permisos
-            <PermissionsTypesComponent></PermissionsTypesComponent>
-        </div>
-    </>
-  )
+    return (
+        <Router>
+            <MenuComponent />
+            <Routes>
+                <Route path="/" element={<HomeComponent />} /> {}
+                <Route path="/permissions" element={<PermissionsComponent />} />
+                <Route path="/permissionstypes" element={<PermissionsTypesComponent />} />
+                <Route path="/create-permission" element={<PermissionCreateFormComponent />} />
+            </Routes>
+        </Router>
+    );
 }
 
-export default App
+export default App;
