@@ -21,6 +21,13 @@ function FormCreateComponent({ initialValues, onSubmit }) {
         const fetchPermissionTypes = async () => {
             const response = await api.get('/api/PermissionsType');
             setPermissionTypes(response.data);
+
+            if (response.data.length > 0) {
+                setValues(prevValues => ({
+                    ...prevValues,
+                    PermissionsTypeId: response.data[0].id,
+                }));
+            }
         };
 
         fetchPermissionTypes();
@@ -49,19 +56,14 @@ function FormCreateComponent({ initialValues, onSubmit }) {
                     shrink: true,
                 }}
             /><br/><br/>
-            <TextField
-                name="TipoPermisoId"
-                label="ID del Tipo de Permiso"
-                value={values.TipoPermisoId || ''}
-                onChange={handleChange}
-            /><br/><br/>
+
             <Select
-                name="TipoPermisoId"
-                value={values.TipoPermisoId || ''}
+                name="PermissionsTypeId"
+                value={values.PermissionsTypeId || ''}
                 onChange={handleChange}
             >
                 {permissionTypes.map((type) => (
-                    <MenuItem value={type.id}>{type.descripcion}</MenuItem>
+                    <MenuItem key={type.id} value={type.id}>{type.descripcion}</MenuItem>
                 ))}
             </Select><br/><br/>
             <Button type="submit">Crear</Button>

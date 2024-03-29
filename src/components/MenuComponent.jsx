@@ -9,6 +9,9 @@ function Menu() {
                     <Grid item>
                         <Button component={Link} to="/" variant="contained" color="primary">Home</Button>
                     </Grid>
+                    <Grid item>
+                        <Button component={Link} to="/permission-types" variant="contained" color="primary">Tipos de Permiso</Button> {/* Nuevo botón */}
+                    </Grid>
                 </Grid>
             </Container>
         </div>

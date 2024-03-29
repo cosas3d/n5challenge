@@ -5,11 +5,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 function DataTable({ data, onEdit, onDelete, onCreate }) {
+    console.log(data);
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'nombreEmpleado', headerName: 'Nombre del Empleado', width: 200 },
         { field: 'apellidoEmpleado', headerName: 'Apellido del Empleado', width: 200 },
-        { field: 'tipoPermisoId', headerName: 'Tipo de Permiso', width: 200 },
+        { field: 'fechaPermiso', headerName: 'Fecha del permiso', width: 200 },
+
         {
             field: 'actions',
             headerName: 'Actions',
@@ -26,7 +28,7 @@ function DataTable({ data, onEdit, onDelete, onCreate }) {
     return (
         <div style={{ height: 400, width: '100%' }}>
             <Button onClick={onCreate}><AddIcon />Crear</Button>
-            <DataGrid rows={data} columns={columns} pageSize={5} />
+            <DataGrid rows={data} columns={columns} pageSize={5}  />
         </div>
     );
 }

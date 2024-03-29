@@ -11,28 +11,38 @@ function MainComponent() {
     const [data, setData] = useState([]);
     const [creating, setCreating] = useState(false);
 
+    const [permissionTypes, setPermissionTypes] = useState([]);
+
+
+
     useEffect(() => {
         const fetchData = async () => {
-            const response = await api.get('/api/Permissions');
-            const dataWithIds = response.data.map(item => {
-                if (item) {
-                    return {
-                        id: item.id.toLowerCase(),
-                        nombreEmpleado: item.nombreEmpleado,
-                        apellidoEmpleado: item.apellidoEmpleado,
-                        fechaPermiso: item.fechaPermiso,
-                        tipoPermisoId: item.tipoPermisoId,
-                    };
-                } else {
-                    return null;
-                }
-            }).filter(item => item !== null);
-            setData(dataWithIds);
+            try {
+                const response = await api.get('/api/Permissions');
 
+                const dataWithIds = response.data.map(item => {
+                    if (item) {
+                        return {
+                            id: item.id,
+                            nombreEmpleado: item.nombreEmpleado,
+                            apellidoEmpleado: item.apellidoEmpleado,
+                            fechaPermiso: item.fechaPermiso,
+
+                        };
+                    } else {
+                        return null;
+                    }
+                }).filter(item => item !== null);
+                setData(dataWithIds);
+            } catch (error) {
+                console.error('Error al obtener los datos: ', error);
+            }
         };
+
 
         fetchData();
     }, []);
+
 
     const handleCreate = async (values) => {
         try {
@@ -44,12 +54,25 @@ function MainComponent() {
         }
     };
 
-    const handleEdit = (id) => {
-        // Implementa aquí la lógica para editar un elemento
+    const handleEdit = async (id) => {
+        try {
+            const response = await api.put(`/api/Permissions/${id}`, values);
+            const updatedData = data.map(item => (item.id === id ? response.data : item));
+            setData(updatedData);
+        } catch (error) {
+            console.error('Error al editar el permiso: ', error);
+        }
     };
 
-    const handleDelete = (id) => {
-        // Implementa aquí la lógica para borrar un elemento
+
+    const handleDelete = async (id) => {
+        try {
+            await api.delete(`/api/Permissions/${id}`);
+            const updatedData = data.filter(item => item.id !== id);
+            setData(updatedData);
+        } catch (error) {
+            console.error('Error al borrar el permiso: ', error);
+        }
     };
 
     return (
