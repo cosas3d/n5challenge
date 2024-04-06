@@ -5,23 +5,31 @@ import {Button} from "@mui/material";
 
 const PermissionsList = ({ onEdit }) => {
     const [permissions, setPermissions] = useState([]);
+    const [permissionTypes, setPermissionTypes] = useState([]);
 
     useEffect(() => {
         const fetchPermissions = async () => {
             try {
-                const { data } = await api.get('/api/Permissions');
-                setPermissions(data.map(d => ({ ...d, id: d.id.toString() })));
+                const response = await api.get('/api/Permissions');
+                const permissionsWithValidTypeId = response.data.map(permission => ({
+                    ...permission,
+                    permissionsTypeId: permission.permissionsTypeId || '',
+                }));
+                setPermissions(permissionsWithValidTypeId);
             } catch (error) {
-                console.error("Error fetching permissions:", error);
+                console.error('Error al obtener permisos:', error);
             }
         };
 
         fetchPermissions();
     }, []);
 
+
     const columns = [
         { field: 'nombreEmpleado', headerName: 'Nombre', width: 130 },
         { field: 'apellidoEmpleado', headerName: 'Apellido', width: 130 },
+        { field: 'fechaPermiso', headerName: 'Fecha Permiso', width: 130 },
+        { field: 'permissionsTypeId', headerName: 'Tipo ', width: 130},
 
         {
             field: 'actions',
