@@ -6,9 +6,11 @@ import PermissionsList from "./PermissionsList.jsx";
 import {Button, Dialog, DialogContent, DialogTitle} from "@mui/material";
 import CreatePermissionForm from "./CreatePermissionForm.jsx";
 import EditPermissionForm from "./EditPermissionForm.jsx";
+import CreateTypePermission from "./CreateTypePermission.jsx";
 
 function MainComponent() {
     const [openDialog, setOpenDialog] = useState(false);
+    const [openTypePermissionDialog, setOpenTypePermissionDialog] = useState(false);
     const [permissions, setPermissions] = useState([]);
     const [editingPermission, setEditingPermission] = useState(null);
 
@@ -40,18 +42,31 @@ function MainComponent() {
         handleClose();
         setPermissions((currentPermissions) => [...currentPermissions, newPermission]);
     };
+    const handleOpenTypePermissionDialog = () => {
+        setOpenTypePermissionDialog(true);
+    };
+    const handleCreateTypeSuccess = async (newPermission) => {
+        handleClose();
+        setPermissions((currentPermissions) => [...currentPermissions, newPermission]);
+    };
     const handleOpen = () => {
         setOpenDialog(true);
     };
+
     const handleClose = () => {
         setOpenDialog(false);
     };
-
+    const handleCloseTypePermissionDialog = () => {
+        setOpenTypePermissionDialog(false);
+    };
 
     return (
         <>
             <Button variant="contained" color="primary" onClick={handleOpen}>
                 Agregar Permiso
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleOpenTypePermissionDialog}>
+                Agregar Tipo de Permiso
             </Button>
             <Dialog open={openDialog} onClose={handleClose}>
                 <DialogTitle>Agregar Nuevo Permiso</DialogTitle>
@@ -70,6 +85,12 @@ function MainComponent() {
                     </DialogContent>
                 </Dialog>
             )}
+            <Dialog open={openTypePermissionDialog} onClose={handleCloseTypePermissionDialog}>
+                <DialogTitle>Agregar Nuevo Tipo Permiso</DialogTitle>
+                <DialogContent>
+                    <CreateTypePermission onSuccess={handleCreateTypeSuccess} />
+                </DialogContent>
+            </Dialog>
             <PermissionsList permissions={permissions} onEdit={handleEdit}/>
         </>
     );
